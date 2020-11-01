@@ -26,14 +26,18 @@
  * __m256d _mm256_max_pd (__m256d a, __m256d b)
 */
 
-/* Generates a random double between low and high */
+/*
+ * Generates a random double between `low` and `high`.
+ */
 double rand_double(double low, double high) {
     double range = (high - low);
     double div = RAND_MAX / range;
     return low + (rand() / div);
 }
 
-/* Generates a random matrix */
+/*
+ * Generates a random matrix with `seed`.
+ */
 void rand_matrix(matrix *result, unsigned int seed, double low, double high) {
     srand(seed);
     for (int i = 0; i < result->rows; i++) {
@@ -44,39 +48,44 @@ void rand_matrix(matrix *result, unsigned int seed, double low, double high) {
 }
 
 /*
- * Allocates space for a matrix struct pointed to by the double pointer mat with
+ * Allocatesspace for a matrix struct pointed to by the double pointer mat with
  * `rows` rows and `cols` columns. You should also allocate memory for the data array
- * and initialize all entries to be zeros. `parent` should be set to NULL to indicate that
- * this matrix is not a slice. You should also set `ref_cnt` to 1.
+ * and initialize all entries to be zeros. Remember to set all fieds of the matrix struct.
+ * `parent` should be set to NULL to indicate that this matrix is not a slice.
  * You should return -1 if either `rows` or `cols` or both have invalid values, or if any
- * call to allocate memory in this function fails. Return 0 upon success.
+ * call to allocate memory in this function fails. If you don't set python error messages here upon
+ * failure, then remember to set it in matrix.c.
+ * Return 0 upon success and non-zero upon failure.
  */
 int allocate_matrix(matrix **mat, int rows, int cols) {
     /* TODO: YOUR CODE HERE */
 }
 
 /*
- * Allocates space for a matrix struct pointed to by `mat` with `rows` rows and `cols` columns.
- * Its data should point to the `offset`th entry of `from`'s data (you do not need to allocate memory)
- * for the data field. `parent` should be set to `from` to indicate this matrix is a slice of `from`.
- * You should return -1 if either `rows` or `cols` or both are non-positive or if any
- * call to allocate memory in this function fails. Return 0 upon success.
+ * Allocate space for a matrix struct pointed to by `mat` with `rows` rows and `cols` columns.
+ * This is equivalent to setting the new matrix to be
+ * from[row_offset:row_offset + rows, col_offset:col_offset + cols]
+ * If you don't set python error messages here upon failure, then remember to set it in matrix.c.
+ * Return 0 upon success and non-zero upon failure.
  */
-int allocate_matrix_ref(matrix **mat, matrix *from, int offset, int rows, int cols) {
+int allocate_matrix_ref(matrix **mat, matrix *from, int row_offset, int col_offset,
+                        int rows, int cols) {
     /* TODO: YOUR CODE HERE */
 }
 
 /*
- * You need to make sure that you only free `mat->data` if `mat` is not a slice and has no existing slices,
- * or if `mat` is the last existing slice of its parent matrix and its parent matrix has no other references
- * (including itself). You cannot assume that mat is not NULL.
+ * This function will be called automatically by Python when a numc matrix loses all of its
+ * reference pointers.
+ * You need to make sure that you only free `mat->data` if no other existing matrices are also
+ * referring this data array.
+ * See the spec for more information.
  */
 void deallocate_matrix(matrix *mat) {
     /* TODO: YOUR CODE HERE */
 }
 
 /*
- * Returns the double value of the matrix at the given row and column.
+ * Return the double value of the matrix at the given row and column.
  * You may assume `row` and `col` are valid.
  */
 double get(matrix *mat, int row, int col) {
@@ -84,7 +93,7 @@ double get(matrix *mat, int row, int col) {
 }
 
 /*
- * Sets the value at the given row and column to val. You may assume `row` and
+ * Set the value at the given row and column to val. You may assume `row` and
  * `col` are valid
  */
 void set(matrix *mat, int row, int col, double val) {
@@ -92,7 +101,7 @@ void set(matrix *mat, int row, int col, double val) {
 }
 
 /*
- * Sets all entries in mat to val
+ * Set all entries in mat to val
  */
 void fill_matrix(matrix *mat, double val) {
     /* TODO: YOUR CODE HERE */
