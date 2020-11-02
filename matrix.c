@@ -48,7 +48,7 @@ void rand_matrix(matrix *result, unsigned int seed, double low, double high) {
 }
 
 /*
- * Allocatesspace for a matrix struct pointed to by the double pointer mat with
+ * Allocate space for a matrix struct pointed to by the double pointer mat with
  * `rows` rows and `cols` columns. You should also allocate memory for the data array
  * and initialize all entries to be zeros. Remember to set all fieds of the matrix struct.
  * `parent` should be set to NULL to indicate that this matrix is not a slice.
