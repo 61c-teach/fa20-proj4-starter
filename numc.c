@@ -291,7 +291,7 @@ PyObject *Matrix61c_sub(Matrix61c* self, PyObject* args) {
 }
 
 /*
- * Element-wise multiply two numc matrices. The first operand is self, and the second operand
+ * NOT element-wise multiplication. The first operand is self, and the second operand
  * can be obtained by casting `args`.
  */
 PyObject *Matrix61c_multiply(Matrix61c* self, PyObject *args) {
