@@ -4,6 +4,17 @@
 PyTypeObject Matrix61cType;
 
 /* Helper functions for initalization of matrices and vectors */
+
+/*
+ * Return a tuple given rows and cols
+ */
+PyObject *get_shape(int rows, int cols) {
+  if (rows == 1 || cols == 1) {
+    return PyTuple_Pack(1, PyLong_FromLong(rows * cols));
+  } else {
+    return PyTuple_Pack(2, PyLong_FromLong(rows), PyLong_FromLong(cols));
+  }
+}
 /*
  * Matrix(rows, cols, low, high). Fill a matrix random double values
  */
@@ -14,8 +25,7 @@ int init_rand(PyObject *self, int rows, int cols, unsigned int seed, double low,
     if (alloc_failed) return alloc_failed;
     rand_matrix(new_mat, seed, low, high);
     ((Matrix61c *)self)->mat = new_mat;
-    ((Matrix61c *)self)->shape = PyTuple_Pack(2, PyLong_FromLong(new_mat->rows),
-                                 PyLong_FromLong(new_mat->cols));
+    ((Matrix61c *)self)->shape = get_shape(new_mat->rows, new_mat->cols);
     return 0;
 }
 
@@ -30,8 +40,7 @@ int init_fill(PyObject *self, int rows, int cols, double val) {
     else {
         fill_matrix(new_mat, val);
         ((Matrix61c *)self)->mat = new_mat;
-        ((Matrix61c *)self)->shape = PyTuple_Pack(2, PyLong_FromLong(new_mat->rows),
-                                     PyLong_FromLong(new_mat->cols));
+        ((Matrix61c *)self)->shape = get_shape(new_mat->rows, new_mat->cols);
     }
     return 0;
 }
@@ -55,8 +64,7 @@ int init_1d(PyObject *self, int rows, int cols, PyObject *lst) {
         }
     }
     ((Matrix61c *)self)->mat = new_mat;
-    ((Matrix61c *)self)->shape = PyTuple_Pack(2, PyLong_FromLong(new_mat->rows),
-                                 PyLong_FromLong(new_mat->cols));
+    ((Matrix61c *)self)->shape = get_shape(new_mat->rows, new_mat->cols);
     return 0;
 }
 
@@ -94,8 +102,7 @@ int init_2d(PyObject *self, PyObject *lst) {
         }
     }
     ((Matrix61c *)self)->mat = new_mat;
-    ((Matrix61c *)self)->shape = PyTuple_Pack(2, PyLong_FromLong(new_mat->rows),
-                                 PyLong_FromLong(new_mat->cols));
+    ((Matrix61c *)self)->shape = get_shape(new_mat->rows, new_mat->cols);
     return 0;
 }
 
