@@ -94,16 +94,26 @@ Generate a md5 hash by sampling random elements in nc_mat
 """
 def rand_md5(mat: Union[dp.Matrix, nc.Matrix]):
     np.random.seed(1)
-    rows, cols = mat.shape
     m = hashlib.md5()
-    total_cnt = mat.shape[0] * mat.shape[1]
-    if total_cnt < num_samples:
-        for i in range(rows):
-            for j in range(cols):
-                m.update(struct.pack("f", round(mat.get(i, j), decimal_places)))
+    if len(mat.shape) > 1:
+        rows, cols = mat.shape
+        total_cnt = mat.shape[0] * mat.shape[1]
+        if total_cnt < num_samples:
+            for i in range(rows):
+                for j in range(cols):
+                    m.update(struct.pack("f", round(mat[i][j], decimal_places)))
+        else:
+            for _ in range(num_samples):
+                i = np.random.randint(rows)
+                j = np.random.randint(cols)
+                m.update(struct.pack("f", round(mat[i][j], decimal_places)))
     else:
-        for _ in range(num_samples):
-            i = np.random.randint(rows)
-            j = np.random.randint(cols)
-            m.update(struct.pack("f", round(mat.get(i, j), decimal_places)))
+        total_cnt = mat.shape[0]
+        if total_cnt < num_samples:
+            for i in range(total_cnt):
+                m.update(struct.pack("f", round(mat[i], decimal_places)))
+        else:
+            for _ in range(num_samples):
+                i = np.random.randint(total_cnt)
+                m.update(struct.pack("f", round(mat[i], decimal_places)))
     return m.digest()
