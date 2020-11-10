@@ -54,7 +54,7 @@ void rand_matrix(matrix *result, unsigned int seed, double low, double high) {
  * `parent` should be set to NULL to indicate that this matrix is not a slice.
  * You should return -1 if either `rows` or `cols` or both have invalid values, or if any
  * call to allocate memory in this function fails. If you don't set python error messages here upon
- * failure, then remember to set it in matrix.c.
+ * failure, then remember to set it in numc.c.
  * Return 0 upon success and non-zero upon failure.
  */
 int allocate_matrix(matrix **mat, int rows, int cols) {
@@ -65,7 +65,7 @@ int allocate_matrix(matrix **mat, int rows, int cols) {
  * Allocate space for a matrix struct pointed to by `mat` with `rows` rows and `cols` columns.
  * This is equivalent to setting the new matrix to be
  * from[row_offset:row_offset + rows, col_offset:col_offset + cols]
- * If you don't set python error messages here upon failure, then remember to set it in matrix.c.
+ * If you don't set python error messages here upon failure, then remember to set it in numc.c.
  * Return 0 upon success and non-zero upon failure.
  */
 int allocate_matrix_ref(matrix **mat, matrix *from, int row_offset, int col_offset,
