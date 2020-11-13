@@ -28,7 +28,10 @@ func_mapping = {
 Returns a dumbpy matrix and a numc matrix with the same data
 """
 def dp_nc_matrix(*args, **kwargs):
-    return dp.Matrix(*args, **kwargs), nc.Matrix(*args, **kwargs)
+    if len(kwargs) > 0:
+        return dp.Matrix(*args, **kwargs), nc.Matrix(*args, **kwargs)
+    else:
+        return dp.Matrix(*args), nc.Matrix(*args)
 
 """
 Returns a random dumbpy matrix and a random numc matrix with the same data
